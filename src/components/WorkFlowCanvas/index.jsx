@@ -1,13 +1,10 @@
-import {useState, useCallback} from 'react';
 import ReactFlow, {
   addEdge,
   MiniMap,
   Controls,
   Background,
   BackgroundVariant,
-  applyNodeChanges,
-  applyEdgeChanges,
-} from 'reactflow';
+ } from 'reactflow';
 import 'reactflow/dist/style.css';
 
 const WorkflowCanvas = ({
@@ -22,7 +19,7 @@ const WorkflowCanvas = ({
   nodeTypes,
   isValidConnection,
 }) => {
-  
+
   return (
     <ReactFlow
       nodes={nodes}

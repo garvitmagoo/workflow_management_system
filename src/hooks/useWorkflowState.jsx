@@ -78,7 +78,7 @@ const useWorkflowState = (initialNodes, initialEdges) => {
     const newNode = {
       id: Date.now().toString(),
       type,
-      position: { x: Math.random() * 400, y: Math.random() * 400 },
+      position: { x: Math.random() * 300, y: Math.random() * 300 },
       data: { taskName: 'New Task', assignee: '', dueDate: '' },
     };
     updateState({ nodes: [...nodes, newNode], edges });
