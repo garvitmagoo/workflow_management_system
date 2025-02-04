@@ -8,4 +8,7 @@
 
 -> Run thr project - npm start 
 
--> That's it ! 
+-> That's it !
+
+-> I have tried to create a clean and modular code , created few custom hooks to extract some logic. Added some basic validation to form and npinline editing in the table. 
+There is still scope for improvement in the UI and enhancements . Could add a few features like real-time collaboration using WebSockets if given some time in future.
