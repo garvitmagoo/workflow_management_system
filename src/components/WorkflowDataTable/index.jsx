@@ -26,6 +26,7 @@ const Th = styled.th`
   padding: 10px;
   text-align: left;
   border-bottom: 2px solid #ddd;
+ 
 `;
 
 const Tr = styled.tr`
@@ -37,6 +38,7 @@ const Tr = styled.tr`
 const Td = styled.td`
   padding: 10px;
   border-bottom: 1px solid #ddd;
+   text-transform: capitalize;
 `;
 
 const Input = styled.input`
