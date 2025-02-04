@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react'; 
 import { useReactTable, getCoreRowModel, flexRender } from '@tanstack/react-table';
 import styled from 'styled-components';
 
@@ -40,6 +40,14 @@ const Td = styled.td`
   border-bottom: 1px solid #ddd;
 `;
 
+const Input = styled.input`
+  width: 100%;
+  padding: 4px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`;
+
 const Button = styled.button`
   padding: 6px 10px;
   background: #007bff;
@@ -55,20 +63,83 @@ const Button = styled.button`
 `;
 
 // Table Component
-const WorkflowTable = ({ nodes, setSelectedNode }) => {
+const WorkflowTable = ({ nodes, updateNodeData }) => {
+  const [editingCell, setEditingCell] = useState(null); // Track the cell being edited
+  const [editValue, setEditValue] = useState(""); // Store input value
+
+  const handleEdit = (nodeId, columnId, value) => {
+    setEditValue(value); // Update local state
+  };
+
+  const saveEdit = (nodeId, columnId) => {
+    if (editValue.trim() === "") return; 
+
+    const node = nodes.find(n => n.id === nodeId);
+    if (!node) return;
+
+    const updatedNode = {
+    ...node.data, [columnId]: editValue ,
+    };
+
+    
+    updateNodeData(nodeId, updatedNode); // Send only updated node
+    setEditingCell(null); // Exit edit mode
+  };
+
   const columns = useMemo(
     () => [
-      { accessorKey: 'data.taskName', header: 'Node Name' },
-      { accessorKey: 'type', header: 'Node Type' },
-      { accessorKey: 'data.status', header: 'Status', cell: ({ getValue }) => getValue() || 'Pending' },
       {
-        header: 'Actions',
-        cell: ({ row }) => (
-          <Button onClick={() => setSelectedNode(row.original)}>Edit</Button>
-        ),
+        accessorKey: 'taskName',
+        header: 'Node Name',
+        cell: ({ row }) => {
+          const node = row.original;
+          const isEditing = editingCell?.id === node.id && editingCell?.columnId === 'taskName';
+          
+          return isEditing ? (
+            <Input
+              type="text"
+              value={editValue}
+              onChange={(e) => handleEdit(node.id, 'taskName', e.target.value)}
+              onBlur={() => saveEdit(node.id, 'taskName')}
+              onKeyDown={(e) => e.key === 'Enter' && saveEdit(node.id, 'taskName')}
+              autoFocus
+            />
+          ) : (
+            <span onClick={() => { setEditingCell({ id: node.id, columnId: 'taskName' }); setEditValue(node.data.taskName); }}>
+              {node.data.taskName}
+            </span>
+          );
+        },
+      },
+      {
+        accessorKey: 'type',
+        header: 'Node Type',
+      },
+      {
+        accessorKey: 'assignee',
+        header: 'Assignee',
+        cell: ({ row }) => {
+          const node = row.original;
+          const isEditing = editingCell?.id === node.id && editingCell?.columnId === 'assignee';
+
+          return isEditing ? (
+            <Input
+              type="text"
+              value={editValue}
+              onChange={(e) => handleEdit(node.id, 'assignee', e.target.value)}
+              onBlur={() => saveEdit(node.id, 'assignee')}
+              onKeyDown={(e) => e.key === 'Enter' && saveEdit(node.id, 'assignee')}
+              autoFocus
+            />
+          ) : (
+            <span onClick={() => { setEditingCell({ id: node.id, columnId: 'assignee' }); setEditValue(node.data.assignee); }}>
+            {node.data.assignee}
+          </span>
+          );
+        },
       },
     ],
-    []
+    [editingCell, editValue, nodes]
   );
 
   const table = useReactTable({ data: nodes, columns, getCoreRowModel: getCoreRowModel() });

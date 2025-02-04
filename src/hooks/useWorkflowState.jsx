@@ -79,7 +79,7 @@ const useWorkflowState = (initialNodes, initialEdges) => {
       id: Date.now().toString(),
       type,
       position: { x: Math.random() * 300, y: Math.random() * 300 },
-      data: { taskName: 'New Task', assignee: '', dueDate: '' },
+      data: { taskName: 'New Task', assignee: 'Test', dueDate: new Date().toISOString().split('T')[0] },
     };
     updateState({ nodes: [...nodes, newNode], edges });
   }, [nodes, edges, updateState]);

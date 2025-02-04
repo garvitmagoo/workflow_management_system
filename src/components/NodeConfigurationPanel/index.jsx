@@ -6,8 +6,7 @@ const PanelContainer = styled.div`
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #f9f9f9;
-  height:100vh;
-  
+  height:90vh;
 `;
 
 const CloseButton = styled.button`

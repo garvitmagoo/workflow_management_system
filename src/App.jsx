@@ -10,7 +10,7 @@ import Button from './components/UI/Button';
 import styled from 'styled-components';
 
 const initialNodes = [
-  { id: '1', type: 'task', position: { x: 220, y: 5 }, data: { taskName: 'Task Node', assignee: '', dueDate: '' } },
+  { id: '1', type: 'task', position: { x: 220, y: 5 }, data: { taskName: 'Task Node', assignee: 'Test', dueDate: new Date().toISOString().split('T')[0] } },
 ];
 
 const initialEdges = [];
@@ -18,7 +18,7 @@ const initialEdges = [];
 const Main = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
   padding: 20px;
   background-color: #f5f5f5;
   min-height: 100vh;
@@ -27,49 +27,46 @@ const Main = styled.div`
 const TableContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 30px;
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 20px; /* Added spacing from the buttons above */
 `;
+
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 20px;
+  gap: 15px;
   flex-direction: row;
-
 `;
 
 const FlowContainer = styled.div`
   flex: 1;
-  height: 70vh;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   position: relative;
   height: 80vh;
-  
 `;
 
 const ButtonGroup = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 6px;
   margin-top: 20px;
 `;
 
 
 const PanelContainer = styled.div`
-  width: ${(props) => (props.$isvisible ? '300px' : '0')};
+  width: ${(props) => (props.$isvisible ? '400px' : '0')};
   transition: width 0.3s ease;
   overflow: hidden;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-   width: ${(props) => (props.$isvisible ? '400px' : '0')};
-  
+  height:90vh;
 `;
 
 const FileInput = styled.input`
