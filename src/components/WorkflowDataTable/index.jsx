@@ -1,8 +1,7 @@
-import React, { useMemo, useState } from 'react'; 
+import  { useMemo, useState } from 'react';
 import { useReactTable, getCoreRowModel, flexRender } from '@tanstack/react-table';
 import styled from 'styled-components';
 
-// Styled Components
 const TableContainer = styled.div`
   width: 80%;
   margin: 20px auto;
@@ -41,11 +40,16 @@ const Td = styled.td`
 `;
 
 const Input = styled.input`
-  width: 100%;
-  padding: 4px;
+  padding: 6px;
   font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  transition: border 0.3s ease;
+
+  &:focus {
+    outline: none;
+    border: 1px solid #007bff;
+  }
 `;
 
 const Button = styled.button`
@@ -62,39 +66,38 @@ const Button = styled.button`
   }
 `;
 
-// Table Component
 const WorkflowTable = ({ nodes, updateNodeData }) => {
-  const [editingCell, setEditingCell] = useState(null); // Track the cell being edited
-  const [editValue, setEditValue] = useState(""); // Store input value
+  const [editingCell, setEditingCell] = useState(null); 
+  const [editValue, setEditValue] = useState(""); 
 
   const handleEdit = (nodeId, columnId, value) => {
-    setEditValue(value); // Update local state
+    setEditValue(value);
   };
 
   const saveEdit = (nodeId, columnId) => {
     if (editValue.trim() === "") return; 
 
-    const node = nodes.find(n => n.id === nodeId);
+    const node = nodes.find((n) => n.id === nodeId);
     if (!node) return;
 
     const updatedNode = {
-    ...node.data, [columnId]: editValue ,
+      ...node.data,
+      [columnId]: editValue,
     };
 
-    
-    updateNodeData(nodeId, updatedNode); // Send only updated node
-    setEditingCell(null); // Exit edit mode
+    updateNodeData(nodeId, updatedNode);
+    setEditingCell(null);
   };
 
   const columns = useMemo(
     () => [
       {
         accessorKey: 'taskName',
-        header: 'Node Name',
+        header: 'Task Name',
         cell: ({ row }) => {
           const node = row.original;
           const isEditing = editingCell?.id === node.id && editingCell?.columnId === 'taskName';
-          
+
           return isEditing ? (
             <Input
               type="text"
@@ -105,7 +108,13 @@ const WorkflowTable = ({ nodes, updateNodeData }) => {
               autoFocus
             />
           ) : (
-            <span onClick={() => { setEditingCell({ id: node.id, columnId: 'taskName' }); setEditValue(node.data.taskName); }}>
+            <span
+              onClick={() => {
+                setEditingCell({ id: node.id, columnId: 'taskName' });
+                setEditValue(node.data.taskName);
+              }}
+              style={{ cursor: 'pointer' }}
+            >
               {node.data.taskName}
             </span>
           );
@@ -132,9 +141,43 @@ const WorkflowTable = ({ nodes, updateNodeData }) => {
               autoFocus
             />
           ) : (
-            <span onClick={() => { setEditingCell({ id: node.id, columnId: 'assignee' }); setEditValue(node.data.assignee); }}>
-            {node.data.assignee}
-          </span>
+            <span
+              onClick={() => {
+                setEditingCell({ id: node.id, columnId: 'assignee' });
+                setEditValue(node.data.assignee);
+              }}
+              style={{ cursor: 'pointer' }}
+            >
+              {node.data.assignee}
+            </span>
+          );
+        },
+      },
+      {
+        accessorKey: 'dueDate',
+        header: 'Due Date',
+        cell: ({ row }) => {
+          const node = row.original;
+          const isEditing = editingCell?.id === node.id && editingCell?.columnId === 'dueDate';
+
+          return isEditing ? (
+            <Input
+              type="date"
+              value={new Date(editValue).toISOString().split('T')[0]}
+              onChange={(e) => handleEdit(node.id, 'dueDate', new Date(e.target.value).toISOString().split('T')[0])}
+              onBlur={() => saveEdit(node.id, 'dueDate')}
+              autoFocus
+            />
+          ) : (
+            <span
+              onClick={() => {
+                setEditingCell({ id: node.id, columnId: 'dueDate' });
+                setEditValue(node.data.dueDate);
+              }}
+              style={{ cursor: 'pointer' }}
+            >
+              {new Date(node.data.dueDate).toLocaleDateString()}
+            </span>
           );
         },
       },
