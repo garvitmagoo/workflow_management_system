@@ -32,7 +32,7 @@ const TableContainer = styled.div`
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin-top: 20px; /* Added spacing from the buttons above */
+  margin-top: 20px;
 `;
 
 

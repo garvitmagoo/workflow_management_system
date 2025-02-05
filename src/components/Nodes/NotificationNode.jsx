@@ -1,4 +1,3 @@
-import React from 'react';
 import CustomHandle from "../Handle/CustomHandle";
 import { Position } from "reactflow";
 import styled from 'styled-components';
