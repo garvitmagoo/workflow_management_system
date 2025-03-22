@@ -2,8 +2,8 @@
 
 To run it you can just follow the following steps -
 
-1. Clone the repo with : - git clone https://github.com/garvitmagoo/tiger_analytics_casestudy.git  
-2. Change  to project directory with -  cd tiger_analytics_casestudy  
+1. Clone the repo with : - git clone https://github.com/garvitmagoo/workflow_management_system.git  
+2. Change  to project directory with -  cd workflow_management_system  
 3. Install Node modules npm i  
 4. Run the project with npm start   
 
